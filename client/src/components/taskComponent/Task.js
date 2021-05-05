@@ -13,7 +13,7 @@ const Task = ({ task, onDelete }) => {
                 <CardHeader 
                     action={
                         <IconButton 
-                            onClick={() => onDelete(task.id)}>
+                            onClick={() => onDelete(task._id)}>
                             <DeleteOutlined color="secondary"/>
                         </IconButton>
                     }

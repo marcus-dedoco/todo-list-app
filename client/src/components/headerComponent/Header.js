@@ -10,6 +10,8 @@ const useStyles = makeStyles({
     h1: {
         backgroundColor: '#f50057',
         color: '#fff',
+        textAlign: 'left',
+        padding: 10,
     }
 });
 
@@ -20,10 +22,10 @@ const Header = () => {
         <div className={classes.root}>
             <Typography 
                 className={classes.h1} 
-                variant="h2" 
+                variant="h4" 
                 component="h1" 
                 gutterBottom 
-                color="none" 
+                color="initial" 
                 align="center"
             >
                 Todo List App

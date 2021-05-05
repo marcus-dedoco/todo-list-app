@@ -28,7 +28,7 @@ const AddTask = ({ onAdd }) => {
 
         if(!text) {
             setTextError(true);
-            setTextErrorHelper("Please enter a task");
+            setTextErrorHelper("Please enter a task...");
             return;
         }
 
