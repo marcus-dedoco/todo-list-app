@@ -1,12 +1,26 @@
-import { FaTimes } from 'react-icons/fa';
+import React from 'react';
+
+import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import { IconButton } from '@material-ui/core';
+import { DeleteOutlined } from '@material-ui/icons';
 
 const Task = ({ task, onDelete }) => {
     return (
-        <div>
-            <h3>
-                {task.text} <FaTimes style={{ color: 'red', cursor: 'pointer'}} onClick={() => onDelete(task.id)}/>
-            </h3>
-        </div>
+        <Container>
+            <Card>
+                <CardHeader 
+                    action={
+                        <IconButton 
+                            onClick={() => onDelete(task.id)}>
+                            <DeleteOutlined color="secondary"/>
+                        </IconButton>
+                    }
+                    title={task.text}
+                />
+            </Card>
+        </Container>
     )
 }
 

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Task from "../taskComponent/Task";
 
 const Tasks = ({ tasks, onDelete }) => {
