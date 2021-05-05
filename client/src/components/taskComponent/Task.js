@@ -7,21 +7,20 @@ import { IconButton } from '@material-ui/core';
 import { DeleteOutlined } from '@material-ui/icons';
 
 const Task = ({ task, onDelete }) => {
-    return (
-        <Container>
-            <Card>
-                <CardHeader 
-                    action={
-                        <IconButton 
-                            onClick={() => onDelete(task._id)}>
-                            <DeleteOutlined color="secondary"/>
-                        </IconButton>
-                    }
-                    title={task.text}
-                />
-            </Card>
-        </Container>
-    )
-}
+  return (
+    <Container>
+      <Card>
+        <CardHeader
+          action={
+            <IconButton onClick={() => onDelete(task._id)}>
+              <DeleteOutlined color="secondary" />
+            </IconButton>
+          }
+          title={task.text}
+        />
+      </Card>
+    </Container>
+  );
+};
 
-export default Task
+export default Task;

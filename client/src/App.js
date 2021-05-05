@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Header from "./components/headerComponent/Header";
-import AddTask from "./components/addTaskComponent/AddTask";
-import Tasks from "./components/tasksComponent/Tasks";
+import Header from './components/headerComponent/Header';
+import AddTask from './components/addTaskComponent/AddTask';
+import Tasks from './components/tasksComponent/Tasks';
 import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   noTask: {
     marginTop: 20,
-  }
+  },
 });
 
 function App() {
@@ -23,9 +23,9 @@ function App() {
       try {
         const config = {
           header: {
-            'Content-Type': 'application/json'
-          }
-        }
+            'Content-Type': 'application/json',
+          },
+        };
 
         const res = await axios.get('/api/tasks', config);
         setTasks(res.data);
@@ -42,9 +42,9 @@ function App() {
       try {
         const config = {
           header: {
-            'Content-Type': 'application/json'
-          }
-        }
+            'Content-Type': 'application/json',
+          },
+        };
 
         const res = await axios.post('/api/tasks', task, config);
         console.log(res);
@@ -53,7 +53,7 @@ function App() {
       }
     }
     addTask();
-  }
+  };
 
   // Delete Task
   const deleteTask = (id) => {
@@ -66,25 +66,26 @@ function App() {
       }
     }
     deleteTask();
-  }
+  };
 
   return (
     <div className="App">
       <Header />
       <AddTask onAdd={addTask} />
-      {tasks.length > 0 ? 
-        <Tasks tasks={tasks}  onDelete={deleteTask} /> :       
-        <Typography 
+      {tasks.length > 0 ? (
+        <Tasks tasks={tasks} onDelete={deleteTask} />
+      ) : (
+        <Typography
           className={classes.noTask}
-          variant="h6" 
-          component="h6" 
-          gutterBottom 
-          color="initial" 
+          variant="h6"
+          component="h6"
+          gutterBottom
+          color="initial"
           align="center"
         >
           No Task to Show...
         </Typography>
-      }
+      )}
     </div>
   );
 }
