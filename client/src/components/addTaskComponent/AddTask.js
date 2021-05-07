@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addTask } from '../../actions/task';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -13,26 +16,15 @@ const useStyles = makeStyles({
   },
 });
 
-const AddTask = ({ onAdd }) => {
+const AddTask = ({ addTask }) => {
   const classes = useStyles();
 
   const [text, setText] = useState('');
-  const [textError, setTextError] = useState(false);
-  const [textErrorHelper, setTextErrorHelper] = useState('');
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    setTextError(false);
-    setTextErrorHelper('');
-
-    if (!text) {
-      setTextError(true);
-      setTextErrorHelper('Please enter a task...');
-      return;
-    }
-
-    onAdd({ text });
+    addTask({ text });
 
     setText('');
   };
@@ -42,15 +34,15 @@ const AddTask = ({ onAdd }) => {
       <form noValidate autoComplete="off" onSubmit={onSubmit}>
         <TextField
           className={classes.input}
-          type="text"
-          label="What task do you want to do?"
           variant="outlined"
           color="secondary"
           fullWidth
           required
+          type="text"
+          label="What task do you want to do?"
+          name="text"
+          value={text}
           onChange={(e) => setText(e.target.value)}
-          error={textError}
-          helperText={textErrorHelper}
         />
         <Button
           type="submit"
@@ -58,7 +50,6 @@ const AddTask = ({ onAdd }) => {
           color="secondary"
           endIcon={<AddCircleIcon />}
           fullWidth
-          onClick={onSubmit}
         >
           Add Task
         </Button>
@@ -67,4 +58,8 @@ const AddTask = ({ onAdd }) => {
   );
 };
 
-export default AddTask;
+addTask.PropTypes = {
+  addTask: PropTypes.func.isRequired,
+};
+
+export default connect(null, { addTask })(AddTask);

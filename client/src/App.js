@@ -1,93 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { Fragment, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/headerComponent/Header';
-import AddTask from './components/addTaskComponent/AddTask';
-import Tasks from './components/tasksComponent/Tasks';
-import { Typography } from '@material-ui/core';
+import Landing from './components/landingComponent/Landing';
 
-const useStyles = makeStyles({
-  noTask: {
-    marginTop: 20,
-  },
-});
+import Routes from './components/routing/Routes';
 
-function App() {
-  const classes = useStyles();
+import setAuthToken from './utils/setAuthToken';
+import { loadUser } from './actions/auth';
 
-  const [tasks, setTasks] = useState([]);
+//Redux
+import { Provider } from 'react-redux';
+import store from './store';
 
+import './App.css';
+
+// Check token exist in localStorage
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App = () => {
   useEffect(() => {
-    async function fetchTasks() {
-      try {
-        const config = {
-          header: {
-            'Content-Type': 'application/json',
-          },
-        };
-
-        const res = await axios.get('/api/tasks', config);
-        setTasks(res.data);
-      } catch (err) {
-        console.error(err.response);
-      }
-    }
-    fetchTasks();
-  }, [tasks]);
-
-  // Add Task
-  const addTask = (task) => {
-    async function addTask() {
-      try {
-        const config = {
-          header: {
-            'Content-Type': 'application/json',
-          },
-        };
-
-        const res = await axios.post('/api/tasks', task, config);
-        console.log(res);
-      } catch (err) {
-        console.error(err.response);
-      }
-    }
-    addTask();
-  };
-
-  // Delete Task
-  const deleteTask = (id) => {
-    async function deleteTask() {
-      try {
-        const res = await axios.delete(`/api/tasks/${id}`);
-        console.log(res);
-      } catch (err) {
-        console.error(err.response);
-      }
-    }
-    deleteTask();
-  };
+    store.dispatch(loadUser());
+  }, []);
 
   return (
-    <div className="App">
-      <Header />
-      <AddTask onAdd={addTask} />
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} />
-      ) : (
-        <Typography
-          className={classes.noTask}
-          variant="h6"
-          component="h6"
-          gutterBottom
-          color="initial"
-          align="center"
-        >
-          No Task to Show...
-        </Typography>
-      )}
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Fragment>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route component={Routes} />
+          </Switch>
+        </Fragment>
+      </Router>
+    </Provider>
   );
-}
+};
 
 export default App;

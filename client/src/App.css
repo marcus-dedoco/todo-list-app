@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  padding: 10px;
+  margin: 10px;
+}
+
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: #f4f4f4;
+  color: #333;
+}
+
+.alert-danger {
+  background: #dc3545;
+  color: #fff;
+}
+
+.alert-success {
+  background: #28a745;
+  color: #fff;
+}

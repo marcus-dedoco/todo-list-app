@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
+const auth = require('../../middleware/auth');
+
 const Task = require('../../models/Task');
+const User = require('../../models/User');
 
 // @route   POST api/tasks
-// @desc    Create a task
-// @access  Public
+// @desc    Add task
+// @access  Private
 router.post(
   '/',
-  [check('text', 'Task is required').not().isEmpty()],
+  [auth, [check('text', 'Task is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -19,6 +22,7 @@ router.post(
     try {
       const newTask = new Task({
         text: req.body.text,
+        user: req.user.id,
       });
 
       const task = await newTask.save();
@@ -33,10 +37,10 @@ router.post(
 
 // @route   GET api/tasks
 // @desc    Get all tasks
-// @access  Public
-router.get('/', async (req, res) => {
+// @access  Private
+router.get('/', auth, async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ _id: -1 });
+    const tasks = await Task.find().sort({ date: 1 });
     res.json(tasks);
   } catch (err) {
     console.log(err.message);
@@ -44,36 +48,21 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET api/tasks/:id
-// @desc    Get task by ID
-// @access  Public
-router.get('/:id', async (req, res) => {
-  try {
-    const task = await Task.findById(req.params.id);
-
-    if (!task) {
-      return res.status(404).json({ msg: 'Task not found' });
-    }
-
-    res.json(task);
-  } catch (err) {
-    console.log(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Task not found' });
-    }
-    res.status(500).send('Server Error');
-  }
-});
-
 // @route   DELETE api/tasks/:id
 // @desc    Delete task by ID
 // @access  Public
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
 
+    // Check Task
     if (!task) {
       return res.status(404).json({ msg: 'Task not found' });
+    }
+
+    // Check user
+    if (task.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
     }
 
     await task.remove();

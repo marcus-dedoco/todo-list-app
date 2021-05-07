@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
@@ -6,21 +8,43 @@ import CardHeader from '@material-ui/core/CardHeader';
 import { IconButton } from '@material-ui/core';
 import { DeleteOutlined } from '@material-ui/icons';
 
-const Task = ({ task, onDelete }) => {
+import formatDate from '../../utils/formatDate';
+
+import { deleteTask } from '../../actions/task';
+
+const Task = ({ deleteTask, auth, task: { _id, text, date, user } }) => {
   return (
     <Container>
       <Card>
         <CardHeader
           action={
-            <IconButton onClick={() => onDelete(task._id)}>
-              <DeleteOutlined color="secondary" />
-            </IconButton>
+            !auth.loading &&
+            user === auth.user._id && (
+              <IconButton
+                onClick={(e) => {
+                  deleteTask(_id);
+                }}
+              >
+                <DeleteOutlined color="secondary" />
+              </IconButton>
+            )
           }
-          title={task.text}
+          title={text}
+          subheader={'Task added on: ' + formatDate(date)}
         />
       </Card>
     </Container>
   );
 };
 
-export default Task;
+Task.propTypes = {
+  task: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { deleteTask })(Task);

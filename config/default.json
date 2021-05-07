@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://admin:661EeCpoxtuFnX64@todolistapp.laxbc.mongodb.net/todoListApp?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://admin:661EeCpoxtuFnX64@todolistapp.laxbc.mongodb.net/todoListApp?retryWrites=true&w=majority",
+  "jwtSecret": "661EeCpoxtuFnX64"
 }
