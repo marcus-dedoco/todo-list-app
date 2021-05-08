@@ -46,6 +46,9 @@ const Header = ({ auth: { user, isAuthenticated, loading }, logout }) => {
           USERNAME
         </Typography>
         <Typography variant="h4">|</Typography> */}
+        <Button color="inherit" component={Link} to="/dashboard">
+          Dashboard
+        </Button>
         <Button color="inherit" onClick={logout} component={Link} to="/">
           Logout
         </Button>
