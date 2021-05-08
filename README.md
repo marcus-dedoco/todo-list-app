@@ -14,10 +14,56 @@
 - Users have their own list tagged to their account
 - Users will not be able to see other users list or tasks
 
+## Prerequisite
+
+**Must have**
+
+- node.js - https://nodejs.org/en/
+- MongoDB Atlas - https://www.mongodb.com/cloud/atlas
+
+**Good to have**
+
+- Git - https://git-scm.com/
+- Github - https://github.com/
+- Heroku - https://www.heroku.com/
+
 ## Setup
 
-`Work in Progress`
+**Edit the file "/config/default.json" and replace the values for "mongoURI" and "jwtSecret"**
+
+```
+{
+  "mongoURI": "<YOUR MONGODB ATLAS URI WITH CREDENTIALS>",
+  "jwtSecret": "<YOUR JWT SECRET"
+}
+```
+
+**Install server dependencies**
+
+```
+npm install
+```
+
+**Install client dependencies**
+
+```
+cd client
+npm install
+```
+
+**Run Server and Client from "/"**
+
+```
+npm run dev
+```
+
+**Build for production**
+
+```
+cd client
+npm run build
+```
 
 ## Demo link
 
-###### http://somewebsite.com/
+###### https://peaceful-ravine-04166.herokuapp.com/
