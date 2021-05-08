@@ -31,7 +31,7 @@ const AddTask = ({ addTask }) => {
 
   return (
     <Container>
-      <form noValidate autoComplete="off" onSubmit={onSubmit}>
+      <form autoComplete="off" onSubmit={onSubmit}>
         <TextField
           className={classes.input}
           variant="outlined"
